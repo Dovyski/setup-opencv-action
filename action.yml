@@ -5,7 +5,7 @@ branding:
   color: 'gray-dark'
 inputs:
   opencv-version:
-    description: 'OpenCV version to be installed'
+    description: 'OpenCV version to be installed.'
     required: true
     default: '4.0.0'
   opencv-extra-modules:

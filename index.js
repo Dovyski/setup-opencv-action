@@ -5,15 +5,14 @@ const exec = require('@actions/exec');
 async function run() {
     try {
         const requestedVersion = core.getInput('opencv-version') || '4.0.0';
-        const fetchFromRepo = requestedVersion == 'master' ||
-                              requestedVersion == 'dev'    ||
-                              requestedVersion == 'latest' ||
-                              requestedVersion == 'last';
+        const useMasterBranch = requestedVersion == 'master' ||
+                                requestedVersion == 'dev'    ||
+                                requestedVersion == 'latest' ||
+                                requestedVersion == 'last';
 
-        const version = fetchFromRepo ? 'last' : requestedVersion;
+        const version = useMasterBranch ? 'master' : requestedVersion;
         const extraModules = core.getInput('opencv-extra-modules') == 'true';
         const installDeps = core.getInput('install-deps') == undefined || core.getInput('install-deps') == 'true';
-        const opencvFolder = 'opencv' + (fetchFromRepo ? '' : '-' + version);
 
         const CMAKE_CXX_COMPILER         = core.getInput('CMAKE_CXX_COMPILER');
         const CMAKE_INSTALL_PREFIX       = core.getInput('CMAKE_INSTALL_PREFIX');
@@ -29,6 +28,7 @@ async function run() {
         const WITH_OPENGL                = core.getInput('WITH_OPENGL');
 
         if (installDeps) {
+            core.startGroup('Install dependencies');
             await exec.exec('sudo add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main"');
             await exec.exec('sudo apt-get update');
             await exec.exec('sudo apt-get remove x264 libx264-dev -y');
@@ -47,47 +47,43 @@ async function run() {
                 'python-dev python-numpy ' +
                 'x264 v4l-utils '
             );
+            core.endGroup();
         }
 
-        if(fetchFromRepo) {
-            // Fetch source from repo
-            await exec.exec(`git clone https://github.com/opencv/opencv.git opencv-${version}`);
-            if(extraModules) {
-                await exec.exec(`git clone https://github.com/opencv/opencv_contrib.git opencv_contrib-${version}`);
-            }
-        } else {
-            // Download sources from archive
-            await exec.exec(`curl -sL https://github.com/opencv/opencv/archive/${version}.zip > opencv.zip`);
-            await exec.exec('unzip -q opencv.zip');
-            
-            if(extraModules) {
-                await exec.exec(`curl -sL https://github.com/opencv/opencv_contrib/archive/${version}.zip > opencv_contrib.zip`);
-                await exec.exec('unzip -q opencv_contrib.zip');
-            }
+        core.startGroup('Download source code');
+        await exec.exec(`git clone https://github.com/opencv/opencv.git --branch ${version} --depth 1`);
+
+        if(extraModules) {
+            await exec.exec(`git clone https://github.com/opencv/opencv_contrib.git --branch ${version} --depth 1`);
         }
+        core.endGroup();
       
-        await exec.exec(`cmake -S opencv-${version} -B opencv-${version}/build ` +
+        core.startGroup('Compile and install');
+        await exec.exec(`cmake -S opencv -B opencv/build ` +
             `-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} ` + 
-            '-D CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}  ' + 
-            '-D WITH_TBB=${WITH_TBB}  ' + 
-            '-D WITH_IPP=${WITH_IPP}  ' + 
-            '-D BUILD_NEW_PYTHON_SUPPORT=${BUILD_NEW_PYTHON_SUPPORT} ' + 
-            '-D WITH_V4L=${WITH_V4L} ' + 
-            '-D ENABLE_PRECOMPILED_HEADERS=${ENABLE_PRECOMPILED_HEADERS} ' + 
-            '-D INSTALL_C_EXAMPLES=${INSTALL_C_EXAMPLES} ' + 
-            '-D INSTALL_PYTHON_EXAMPLES=${INSTALL_PYTHON_EXAMPLES} ' + 
-            '-D BUILD_EXAMPLES=${BUILD_EXAMPLES} ' + 
-            '-D WITH_QT=${WITH_QT} ' + 
-            '-D WITH_OPENGL=${WITH_OPENGL} ' +
-            extraModules ? `-D OPENCV_EXTRA_MODULES_PATH=./opencv_contrib-${version}/modules ` : ''
+            `-D CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ` + 
+            `-D WITH_TBB=${WITH_TBB} ` + 
+            `-D WITH_IPP=${WITH_IPP} ` + 
+            `-D BUILD_NEW_PYTHON_SUPPORT=${BUILD_NEW_PYTHON_SUPPORT} ` + 
+            `-D WITH_V4L=${WITH_V4L} ` + 
+            `-D ENABLE_PRECOMPILED_HEADERS=${ENABLE_PRECOMPILED_HEADERS} ` + 
+            `-D INSTALL_C_EXAMPLES=${INSTALL_C_EXAMPLES} ` + 
+            `-D INSTALL_PYTHON_EXAMPLES=${INSTALL_PYTHON_EXAMPLES} ` + 
+            `-D BUILD_EXAMPLES=${BUILD_EXAMPLES} ` + 
+            `-D WITH_QT=${WITH_QT} ` + 
+            `-D WITH_OPENGL=${WITH_OPENGL} ` +
+            extraModules ? '-D OPENCV_EXTRA_MODULES_PATH=./opencv_contrib/modules ' : ''
         );
 
-        await exec.exec(`make -j10 -C opencv-${version}/build`);
-        await exec.exec(`sudo make -C opencv-${version}/build install`);
+        await exec.exec('make -j10 -C opencv/build');
+        await exec.exec('sudo make -C opencv/build install');
+        core.endGroup();
         
         // Clean up?
-        await exec.exec(`rm -rf opencv-${version}`);
-        await exec.exec(`rm -rf opencv_contrib-${version}`);
+        core.startGroup('Cleanup');
+        await exec.exec('rm -rf opencv');
+        await exec.exec('rm -rf opencv_contrib');
+        core.endGroup();
 
   } catch (error) {
     core.setFailed(error.message);

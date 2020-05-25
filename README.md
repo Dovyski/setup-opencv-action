@@ -67,6 +67,15 @@ steps:
     opencv-version: '4.0.0'
 ```
 
+Install development version (master):
+```yaml
+steps:
+- uses: actions/checkout@v2
+- uses: actions/setup-opencv@v1
+  with:
+    opencv-version: 'master'
+```
+
 Matrix Testing:
 ```yaml
 jobs:
@@ -74,7 +83,7 @@ jobs:
     runs-on: ubuntu-16.04
     strategy:
       matrix:
-        opencv: [ '4.0.0', '4.1.0' ]
+        opencv: [ '3.4.0', '4.0.0', '4.1.0' ]
     name: OpenCV ${{ matrix.opencv }} sample
     steps:
       - uses: actions/checkout@v2
