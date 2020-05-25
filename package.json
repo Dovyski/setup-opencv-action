@@ -1,0 +1,30 @@
+{
+  "name": "setup-opencv-action",
+  "version": "1.0.0",
+  "description": "Github Action to download and install OpenCV.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dovyski/seteup-opencv-action.git"
+  },
+  "keywords": [
+    "github-action",
+    "github",
+    "opencv",
+    "cv"
+  ],
+  "author": "Fernando Bevilacqua",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dovyski/setup-opencv-action/issues"
+  },
+  "homepage": "https://github.com/Dovyski/setup-opencv-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/exec": "^1.0.4",
+    "@actions/github": "^2.0.0"
+  }
+}

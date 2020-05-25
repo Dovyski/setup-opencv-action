@@ -1,0 +1,64 @@
+name: 'Setup OpenCV'
+description: 'This action downloads, compiles and installs OpenCV using the informed version.'
+branding:
+  icon: 'scissors'
+  color: 'gray-dark'
+inputs:
+  opencv-version:
+    description: 'OpenCV version to be installed'
+    required: true
+    default: '4.0.0'
+  opencv-extra-modules:
+    description: 'If opencv-contrib (extra modules) should be included in the instalation.'
+    required: false
+    default: true
+  install-deps:
+    description: 'If dependencies should be installed as well'
+    required: false
+    default: true
+  install-deps:
+    description: 'If dependencies should be installed as well'
+    required: false
+    default: true
+  CMAKE_BUILD_TYPE:
+    required: false
+    default: RELEASE
+  CMAKE_CXX_COMPILER:
+    default: g++
+    required: false
+  CMAKE_INSTALL_PREFIX:
+    default: /usr/local
+    required: false
+  WITH_TBB:
+    default: ON
+    required: false
+  WITH_IPP:
+    default: ON
+    required: false
+  BUILD_NEW_PYTHON_SUPPORT:
+    default: OFF
+    required: false
+  WITH_V4L:
+    default: OFF
+    required: false
+  ENABLE_PRECOMPILED_HEADERS:
+    default: ON
+    required: false
+  INSTALL_C_EXAMPLES:
+    default: OFF
+    required: false
+  INSTALL_PYTHON_EXAMPLES:
+    default: OFF
+    required: false
+  BUILD_EXAMPLES:
+    default: OFF
+    required: false
+  WITH_QT:
+    default: OFF
+    required: false
+  WITH_OPENGL:
+    default: OFF
+    required: false
+runs:
+  using: 'node12'
+  main: 'index.js'
