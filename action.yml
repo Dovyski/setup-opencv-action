@@ -13,11 +13,7 @@ inputs:
     required: false
     default: true
   install-deps:
-    description: 'If dependencies should be installed as well'
-    required: false
-    default: true
-  install-deps:
-    description: 'If dependencies should be installed as well'
+    description: 'If dependencies should be installed as well.'
     required: false
     default: true
   CMAKE_BUILD_TYPE:
