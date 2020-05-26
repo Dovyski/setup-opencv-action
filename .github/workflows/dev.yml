@@ -1,0 +1,15 @@
+name: Install development version (master branch, not released yet)
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: A job to test the action
+    steps:
+    - uses: actions/checkout@v2
+      uses: ./ # Uses an action in the root directory
+      with:
+        opencv-version: master
+    - name: Check instalation
+      run: |
+        dpkg -l | grep libopencv

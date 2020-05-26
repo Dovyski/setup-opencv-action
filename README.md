@@ -1,14 +1,16 @@
-# Payload Info
+# Setup OpenCV
 
-This action downloads, compiles and installs OpenCV using the informed version.
+This action downloads, compiles and installs OpenCV. You can choose the version to be installed, as well as how the build/install should occour. If you just want OpenCV installed and ready for use in your Github Actions, this is for you.
 
 Check out the [`.github/workflows/main.yml`](https://github.com/Dovyski/setup-opencv-action/blob/master/.github/workflows/main.yml) file to see this action working.
 
+> **NOTICE:** this action was created to support CI testings of [cvui](https://github.com/Dovyski/cvui), a GUI library for OpenCV.
+
 ## Inputs
 
-| Name  | Description | Default  |
+| Name  | Description | Default value |
 |---|---|---|
-| `opencv-verion` | **[Required]** OpenCV version to be installed. | `4.0.0` |
+| `opencv-verion` | OpenCV version to be installed. | - |
 | `opencv-extra-modules` | If [opencv-contrib](https://github.com/opencv/opencv_contrib) (extra modules) should be included in the instalation. | `true` | 
 | `install-deps` | If dependencies should be installed as well, e.g. libs, cmake, etc. | `true` |
 | `CMAKE_BUILD_TYPE` | | `RELEASE` |
@@ -59,7 +61,7 @@ steps:
     opencv-version: master
 ```
 
-Matrix Testing:
+Matrix testing:
 ```yaml
 jobs:
   build:

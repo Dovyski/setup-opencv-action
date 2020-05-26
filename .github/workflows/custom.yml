@@ -1,4 +1,4 @@
-name: Main
+name: Custom build and install
 on: push
 
 jobs:
@@ -6,11 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to test the action
     steps:
-    - uses: actions/checkout@v1
-    - name: Install OpenCV
+    - uses: actions/checkout@v2
       uses: ./ # Uses an action in the root directory
       with:
-        opencv-version: '4.0.0'
+        opencv-version: 4.0.0
+        ENABLE_PRECOMPILED_HEADERS: OFF
+        INSTALL_C_EXAMPLES: ON
+        BUILD_EXAMPLES: ON
     - name: Check instalation
       run: |
         dpkg -l | grep libopencv

@@ -1,0 +1,16 @@
+name: Basic
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: A job to test the action
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install OpenCV
+      uses: ./ # Uses an action in the root directory
+      with:
+        opencv-version: '4.0.0'
+    - name: Check instalation
+      run: |
+        dpkg -l | grep libopencv
