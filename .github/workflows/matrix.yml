@@ -10,7 +10,7 @@ jobs:
     name: OpenCV ${{ matrix.opencv }}
     steps:
       - uses: actions/checkout@v2
-      - name: Setup opencv
+      - name: Setup OpenCV
         uses: ./ # Uses an action in the root directory
         with:
           opencv-version: ${{ matrix.opencv }}
