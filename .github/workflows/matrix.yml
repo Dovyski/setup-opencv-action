@@ -3,17 +3,17 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    name: Test de action
     strategy:
       matrix:
         opencv: [ '3.6.0', '4.0.0', '4.2.0' ]
-    name: OpenCV ${{ matrix.opencv }}
     steps:
       - uses: actions/checkout@v2
-      - name: Setup OpenCV
+      - name: Setup OpenCV ${{ matrix.opencv }}
         uses: ./ # Uses an action in the root directory
         with:
           opencv-version: ${{ matrix.opencv }}
-    - name: Check instalation
-      run: |
-        dpkg -l | grep libopencv
+      - name: Check instalation
+        run: |
+          dpkg -l | grep libopencv
