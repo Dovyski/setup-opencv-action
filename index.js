@@ -33,7 +33,7 @@ async function run() {
             await exec.exec('sudo apt-get update');
             await exec.exec('sudo apt-get remove x264 libx264-dev -y');
             await exec.exec('sudo apt-get install -y ' +
-                'build-essential checkinstall cmake pkg-config yasm ' +
+                'build-essential checkinstall git cmake pkg-config yasm ' +
                 'git gfortran libjpeg8-dev libjasper1 libjasper-dev libpng-dev ' +
                 'libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev ' +
                 'libxine2-dev libv4l-dev ' +
