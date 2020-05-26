@@ -58,23 +58,25 @@ async function run() {
         }
         core.endGroup();
       
-        core.startGroup('Compile and install');
-        await exec.exec(`cmake -S opencv -B opencv/build ` +
-            `-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} ` + 
-            `-D CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ` + 
-            `-D WITH_TBB=${WITH_TBB} ` + 
-            `-D WITH_IPP=${WITH_IPP} ` + 
-            `-D BUILD_NEW_PYTHON_SUPPORT=${BUILD_NEW_PYTHON_SUPPORT} ` + 
-            `-D WITH_V4L=${WITH_V4L} ` + 
-            `-D ENABLE_PRECOMPILED_HEADERS=${ENABLE_PRECOMPILED_HEADERS} ` + 
-            `-D INSTALL_C_EXAMPLES=${INSTALL_C_EXAMPLES} ` + 
-            `-D INSTALL_PYTHON_EXAMPLES=${INSTALL_PYTHON_EXAMPLES} ` + 
-            `-D BUILD_EXAMPLES=${BUILD_EXAMPLES} ` + 
-            `-D WITH_QT=${WITH_QT} ` + 
-            `-D WITH_OPENGL=${WITH_OPENGL} ` +
-            extraModules ? '-D OPENCV_EXTRA_MODULES_PATH=./opencv_contrib/modules ' : ''
-        );
+        const cmakeCmd = 'cmake -S opencv -B opencv/build ' +
+            ' -D CMAKE_CXX_COMPILER=' + CMAKE_CXX_COMPILER + 
+            ' -D CMAKE_INSTALL_PREFIX=' + CMAKE_INSTALL_PREFIX +
+            ' -D WITH_TBB=' + WITH_TBB + 
+            ' -D WITH_IPP=' + WITH_IPP + 
+            ' -D BUILD_NEW_PYTHON_SUPPORT=' + BUILD_NEW_PYTHON_SUPPORT +
+            ' -D WITH_V4L=' + WITH_V4L +
+            ' -D ENABLE_PRECOMPILED_HEADERS=' + ENABLE_PRECOMPILED_HEADERS +
+            ' -D INSTALL_C_EXAMPLES=' + INSTALL_C_EXAMPLES +
+            ' -D INSTALL_PYTHON_EXAMPLES=' + INSTALL_PYTHON_EXAMPLES +
+            ' -D BUILD_EXAMPLES=' + BUILD_EXAMPLES +
+            ' -D WITH_QT=' + WITH_QT +
+            ' -D WITH_OPENGL=' + WITH_OPENGL +
+            (extraModules ? ' -D OPENCV_EXTRA_MODULES_PATH=./opencv_contrib/modules ' : '');
 
+        console.log(`Compile cmd: ${cmakeCmd}`);
+
+        core.startGroup('Compile and install');
+        await exec.exec(cmakeCmd);
         await exec.exec('make -j10 -C opencv/build');
         await exec.exec('sudo make -C opencv/build install');
         core.endGroup();
