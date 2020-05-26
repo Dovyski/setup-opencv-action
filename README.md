@@ -2,7 +2,7 @@
 
 This action downloads, compiles and installs OpenCV. You can choose the version to be installed, as well as how the build/install should occour. If you just want OpenCV installed and ready for use in your Github Actions, this is for you.
 
-Check out the [`.github/workflows/main.yml`](https://github.com/Dovyski/setup-opencv-action/blob/master/.github/workflows/main.yml) file to see this action working.
+Check out the [`.github/workflows/basic.yml`](https://github.com/Dovyski/setup-opencv-action/blob/master/.github/workflows/basic.yml) file to see this action working.
 
 > **NOTICE:** this action was created to support CI testings of [cvui](https://github.com/Dovyski/cvui), a GUI library for OpenCV.
 
