@@ -14,6 +14,3 @@ jobs:
         uses: ./ # Uses an action in the root directory
         with:
           opencv-version: ${{ matrix.opencv }}
-      - name: Check instalation
-        run: |
-          dpkg -l | grep libopencv

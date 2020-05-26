@@ -14,6 +14,3 @@ jobs:
         ENABLE_PRECOMPILED_HEADERS: OFF
         INSTALL_C_EXAMPLES: ON
         BUILD_EXAMPLES: ON
-    - name: Check instalation
-      run: |
-        dpkg -l | grep libopencv
