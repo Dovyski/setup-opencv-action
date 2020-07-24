@@ -11,7 +11,7 @@ Check out the [`.github/workflows/basic.yml`](https://github.com/Dovyski/setup-o
 | Name  | Description | Default value |
 |---|---|---|
 | `opencv-verion` | OpenCV version to be installed. | - |
-| `opencv-extra-modules` | If [opencv-contrib](https://github.com/opencv/opencv_contrib) (extra modules) should be included in the instalation. | `true` | 
+| `opencv-extra-modules` | If [opencv-contrib](https://github.com/opencv/opencv_contrib) (extra modules) should be included in the instalation. | `true` |
 | `install-deps` | If dependencies should be installed as well, e.g. libs, cmake, etc. | `true` |
 | `CMAKE_BUILD_TYPE` | | `RELEASE` |
 | `CMAKE_CXX_COMPILER` | | `g++` |
@@ -26,6 +26,7 @@ Check out the [`.github/workflows/basic.yml`](https://github.com/Dovyski/setup-o
 | `BUILD_EXAMPLES` | | `OFF` |
 | `WITH_QT` | | `OFF` |
 | `WITH_OPENGL` | | `OFF` |
+| `GENERATE_PKGCONFIG` | | `OFF` |
 
 ## Usage
 
