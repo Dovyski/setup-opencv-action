@@ -26,6 +26,7 @@ async function run() {
         const BUILD_EXAMPLES             = core.getInput('BUILD_EXAMPLES');
         const WITH_QT                    = core.getInput('WITH_QT');
         const WITH_OPENGL                = core.getInput('WITH_OPENGL');
+        const GENERATE_PKGCONFIG         = core.getInput('GENERATE_PKGCONFIG');
 
         if (installDeps) {
             core.startGroup('Install dependencies');
@@ -71,6 +72,7 @@ async function run() {
             ' -D BUILD_EXAMPLES=' + BUILD_EXAMPLES +
             ' -D WITH_QT=' + WITH_QT +
             ' -D WITH_OPENGL=' + WITH_OPENGL +
+            ' -D OPENCV_GENERATE_PKGCONFIG=' + GENERATE_PKGCONFIG +
             (extraModules ? ' -D OPENCV_EXTRA_MODULES_PATH=./opencv_contrib/modules ' : '');
 
         console.log(`Compile cmd: ${cmakeCmd}`);

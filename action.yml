@@ -55,6 +55,9 @@ inputs:
   WITH_OPENGL:
     default: OFF
     required: false
+  GENERATE_PKGCONFIG:
+    default: OFF
+    required: false
 runs:
   using: 'node12'
   main: 'index.js'
