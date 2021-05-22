@@ -81,6 +81,7 @@ async function run() {
         await exec.exec(cmakeCmd);
         await exec.exec('make -j10 -C opencv/build');
         await exec.exec('sudo make -C opencv/build install');
+        await exec.exec('sudo ldconfig');
         core.endGroup();
         
         // Clean up?
