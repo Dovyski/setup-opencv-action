@@ -36,7 +36,7 @@ Basic:
 ```yaml
 steps:
 - uses: actions/checkout@v2
-- uses: Dovyski/setup-opencv-action@v1
+- uses: Dovyski/setup-opencv-action@v1.1
   with:
     opencv-version: '4.0.0'
 ```
@@ -45,7 +45,7 @@ Custom build and install:
 ```yaml
 steps:
 - uses: actions/checkout@v2
-- uses: Dovyski/setup-opencv-action@v1
+- uses: Dovyski/setup-opencv-action@v1.1
   with:
     opencv-version: 4.0.0
     ENABLE_PRECOMPILED_HEADERS: OFF
@@ -57,7 +57,7 @@ Install development version (master branch, not released yet):
 ```yaml
 steps:
 - uses: actions/checkout@v2
-- uses: Dovyski/setup-opencv-action@v1
+- uses: Dovyski/setup-opencv-action@v1.1
   with:
     opencv-version: master
 ```
@@ -74,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup opencv
-        uses: Dovyski/setup-opencv-action@v1
+        uses: Dovyski/setup-opencv-action@v1.1
         with:
           opencv-version: ${{ matrix.opencv }}
 ```
