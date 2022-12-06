@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Dovyski/setup-opencv-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.4",
+    "@actions/core": "^1.9.1",
     "@actions/exec": "^1.0.4",
     "@actions/github": "^2.0.0"
   }
