@@ -3,10 +3,11 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    name: Test the action
+    runs-on: ${{ matrix.os }}
+    name: Test the action on ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ 'ubuntu-20.04', 'macos-latest', 'windows-latest' ]
         opencv: [ '3.4.10', '4.0.0', '4.3.0' ]
     steps:
       - uses: actions/checkout@v2

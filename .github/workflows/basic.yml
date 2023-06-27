@@ -3,7 +3,7 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Test the action
     steps:
     - uses: actions/checkout@v1
