@@ -189,10 +189,22 @@ async function run_windows() {
             CMAKE_INSTALL_PREFIX = 'C:/opencv';
         }
         const WITH_TBB                   = core.getInput('WITH_TBB');
+        if(WITH_TBB == 'ON') {
+            core.setFailed("WITH_TBB is not supported on Windows.");
+            return;
+        }
         const WITH_IPP                   = core.getInput('WITH_IPP');
+        if(WITH_IPP == 'ON') {
+            core.setFailed("WITH_IPP is not supported on Windows.");
+            return;
+        }
         const BUILD_NEW_PYTHON_SUPPORT   = core.getInput('BUILD_NEW_PYTHON_SUPPORT');
         const WITH_V4L                   = core.getInput('WITH_V4L');
         const ENABLE_PRECOMPILED_HEADERS = core.getInput('ENABLE_PRECOMPILED_HEADERS');
+        if(ENABLE_PRECOMPILED_HEADERS == 'ON') {
+            core.setFailed("ENABLE_PRECOMPILED_HEADERS is not supported on Windows.");
+            return;
+        }
         const INSTALL_C_EXAMPLES         = core.getInput('INSTALL_C_EXAMPLES');
         const INSTALL_PYTHON_EXAMPLES    = core.getInput('INSTALL_PYTHON_EXAMPLES');
         const BUILD_EXAMPLES             = core.getInput('BUILD_EXAMPLES');
@@ -220,16 +232,19 @@ async function run_windows() {
         const cmakeCmd = 'cmake -G "MinGW Makefiles" -S opencv -B opencv/build ' +
             ' -D CMAKE_CXX_COMPILER=' + CMAKE_CXX_COMPILER + 
             ' -D CMAKE_INSTALL_PREFIX=' + CMAKE_INSTALL_PREFIX +
-            ' -D WITH_TBB=' + WITH_TBB + 
-            ' -D WITH_IPP=' + WITH_IPP + 
+            ' -D WITH_TBB=' + "OFF" + 
+            ' -D WITH_IPP=' + "OFF" + 
             ' -D BUILD_NEW_PYTHON_SUPPORT=' + BUILD_NEW_PYTHON_SUPPORT +
             ' -D WITH_V4L=' + WITH_V4L +
-            ' -D ENABLE_PRECOMPILED_HEADERS=' + ENABLE_PRECOMPILED_HEADERS +
+            ' -D CMAKE_CXX_STANDARD=11' +
+            ' -D ENABLE_PRECOMPILED_HEADERS=' + "OFF" +
             ' -D INSTALL_C_EXAMPLES=' + INSTALL_C_EXAMPLES +
             ' -D INSTALL_PYTHON_EXAMPLES=' + INSTALL_PYTHON_EXAMPLES +
             ' -D BUILD_EXAMPLES=' + BUILD_EXAMPLES +
             ' -D WITH_QT=' + WITH_QT +
             ' -D WITH_OPENGL=' + WITH_OPENGL +
+            ' -D WITH_MSMF=OFF' +
+            ' -D OPENCV_ENABLE_ALLOCATOR_STATS=OFF' +
             ' -D OPENCV_GENERATE_PKGCONFIG=' + GENERATE_PKGCONFIG +
             (extraModules ? ' -D OPENCV_EXTRA_MODULES_PATH=./opencv_contrib/modules ' : '');
 
@@ -243,8 +258,8 @@ async function run_windows() {
         
         // Clean up?
         core.startGroup('Cleanup');
-        await exec.exec('rmdir /Q /S opencv', [], options);
-        await exec.exec('rmdir /Q /S opencv_contrib', [], options);
+        await exec.exec('rm -rf opencv', [], options);
+        await exec.exec('rm -rf opencv_contrib', [], options);
         core.endGroup();
 
     } catch (error) {

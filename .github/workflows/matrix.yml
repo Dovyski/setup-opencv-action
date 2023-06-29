@@ -8,10 +8,13 @@ jobs:
     strategy:
       matrix:
         os: [ 'ubuntu-20.04', 'macos-latest', 'windows-latest' ]
-        opencv: [ '3.4.10', '4.0.0', '4.3.0' ]
+        opencv: [ '3.4.10', '4.0.0' ]
     steps:
       - uses: actions/checkout@v2
       - name: Setup OpenCV ${{ matrix.opencv }}
         uses: ./ # Uses an action in the root directory
         with:
           opencv-version: ${{ matrix.opencv }}
+          WITH_IPP: if ${{ matrix.os }} == 'windows-latest' then 'OFF' else 'ON'
+          WITH_TBB: if ${{ matrix.os }} == 'windows-latest' then 'OFF' else 'ON'
+          ENABLE_PRECOMPILED_HEADERS: if ${{ matrix.os }} == 'windows-latest' then 'OFF' else 'ON'
